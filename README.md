@@ -10,11 +10,13 @@ The project grows incrementally:
 
 - **v0.1** - One-dimensional particle motion under a constant force
 - **v0.2** - Multi-step trajectory generation with a `for` loop
-- **Next** - Ligand center of mass, displacement thresholds, random direction updates, and repeated escape simulations
+- **v0.3 concept** - Ligand center of mass (COM)
+- **v0.4** - Integrated ligand motion, COM displacement, and threshold decision logic
+- **Next** - Random force-direction changes and repeated escape simulations
 
 ## Physical idea
 
-The first versions use the basic chain:
+The first versions use the chain:
 
 ```text
 force -> acceleration -> velocity -> position
@@ -28,20 +30,27 @@ v_new = v_old + a * dt
 x_new = x_old + v_new * dt
 ```
 
-Later versions will add simplified RAMD logic: monitor ligand center-of-mass displacement and change the applied direction when progress is too small.
+The integrated version treats the ligand as a simplified translating three-atom object. It calculates the ligand center of mass, moves the ligand, measures COM displacement, and checks whether the displacement is below a threshold.
+
+```text
+atoms -> COM -> force -> acceleration -> motion
+                         |
+                         v
+               new COM -> displacement
+                              |
+                              v
+                  displacement < threshold?
+```
+
+The next version will replace the placeholder "change direction needed" decision with an actual random direction update.
 
 ## Build
 
-```bash
-g++ ramd_v01.cpp -o ramd_v01
-./ramd_v01
-```
-
-or
+For example:
 
 ```bash
-g++ ramd_v02.cpp -o ramd_v02
-./ramd_v02
+g++ ramd_v04_integrated.cpp -o ramd_v04
+./ramd_v04
 ```
 
 ## Learning focus
@@ -49,6 +58,7 @@ g++ ramd_v02.cpp -o ramd_v02
 - variables -> store physical quantities
 - arithmetic expressions -> implement equations
 - loops -> advance simulation timesteps
+- center of mass -> represent whole-ligand translation
 - conditionals -> make RAMD direction-update decisions
 - later: vectors, functions, random numbers, trajectory output, and statistics
 
