@@ -8,9 +8,9 @@ The purpose of this repository is to build a simplified RAMD-style particle mode
 
 The project grows incrementally:
 
-- **v0.1** — One-dimensional particle motion under a constant force
-- **v0.2** — Multi-step trajectory generation with a `for` loop
-- **Next** — Ligand center of mass, displacement thresholds, random direction updates, and repeated escape simulations
+- **v0.1** - One-dimensional particle motion under a constant force
+- **v0.2** - Multi-step trajectory generation with a `for` loop
+- **Next** - Ligand center of mass, displacement thresholds, random direction updates, and repeated escape simulations
 
 ## Physical idea
 
