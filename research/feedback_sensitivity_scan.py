@@ -28,7 +28,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from feedback_vs_exponential import Config, exact_unbiased_mfpt, simulate
+if __package__:
+    from .feedback_vs_exponential import Config, exact_unbiased_mfpt, simulate
+else:
+    from feedback_vs_exponential import Config, exact_unbiased_mfpt, simulate
 
 
 @dataclass(frozen=True)
