@@ -153,6 +153,8 @@ a meaningful change in mean escape time due to feedback** at this
 parameter point. The feedback out/in persistence proxy remained above
 one, but that does not yet demonstrate a useful kinetic-error diagnostic.
 
+The exact five-seed records are in [the local pilot CSV](../research/feedback_5seed_local.csv).
+
 These summaries are exploratory (small number of independent batches,
 no grid of force strengths, no timestep extrapolation, and no
 multiplicity-controlled uncertainty). Never claim these tables are a
