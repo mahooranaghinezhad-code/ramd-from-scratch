@@ -78,6 +78,14 @@ cannot justify a mechanistic or generalizable claim: the comparison
 grid is exploratory, corrections for multiple testing are absent,
 and discretization convergence has not been established.
 
+For transparency, two-sided t tests across the five seed-batch deltas gave
+uncorrected p-values about 0.0445 and 0.0468 for the two narrowly negative
+intervals. Adjusting across the **eight compared conditions** using the
+conservative Bonferroni procedure gives about **0.356 and 0.374**,
+respectively; neither supports rejecting a zero difference at the 0.05
+familywise level. These exploratory tests have only four degrees of freedom
+and should not be construed as publication-ready inference.
+
 The outward/inward ratio groups orientation by the **sign of n_x**,
 NOT by actual x velocity or an independently estimated local drift.
 Because groups are sampled from survival-conditioned trajectories,
