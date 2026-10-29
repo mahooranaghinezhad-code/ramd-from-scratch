@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: pip install numpy matplotlib openmm torch
+        run: pip install numpy matplotlib openmm torch MDAnalysis
       - name: Compile Python syntax
         run: python -m compileall -q 01_equilibrium_sampling 02_umbrella_sampling 03_mbar 04_reaction_coordinates 05_nonequilibrium 07_ramd_theory 08_trajectory_analysis 09_openmm_ramd 10_ml_extension research
       - name: Paper 4 core integrator smoke
@@ -44,6 +44,12 @@ jobs:
           assert np.isfinite(x[:,1]).all()
           assert abs(np.sum(x[:,1])-1)<.02
           PY
+      - name: Validate WHAM and MBAR against analytic toy PMF
+        run: python tests/scientific_checks.py
+      - name: Paper 1 RAMD theory smoke
+        run: python 07_ramd_theory/ramd_effective_dynamics.py --quick --output /tmp/paper1
+      - name: MDAnalysis dependency import
+        run: python -c 'import MDAnalysis; print("MDAnalysis import OK")'
       - name: Paper 3 committor smoke
         run: python 04_reaction_coordinates/committor_analysis.py --shots 5 --max-steps 200 --output /tmp/paper3
       - name: Paper 6 Jarzynski sanity
@@ -61,6 +67,7 @@ jobs:
           path: |
             results_paper2/
             results_paper5/
+            results_paper1/
           if-no-files-found: ignore
   cpp:
     runs-on: ubuntu-latest
