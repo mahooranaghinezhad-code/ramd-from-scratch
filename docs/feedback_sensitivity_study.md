@@ -19,6 +19,8 @@ to experimentally measured ligand dissociation rates.
 The accompanying program is
 [research/feedback_sensitivity_scan.py](../research/feedback_sensitivity_scan.py).
 
+The archived [40-batch, per-seed pilot CSV](../research/feedback_sensitivity_pilot_40batches.csv) accompanies the independently executable code. All data are from a local numerical run, not from a full atomistic simulation.
+
 | Variable | Values |
 |---|---|
 | Force magnitude F | 1, 3 |
