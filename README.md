@@ -35,6 +35,17 @@ The original C++ learning steps are retained in the repository.
 
 **[2026 literature update: feedback-aware RAMD and a testable gap](docs/feedback_aware_ramd_literature_update.md)**
 
+**First feedback-vs-exponential controlled experiment:** [scientific protocol and limitations](docs/feedback_protocol_experiment.md) · [Python source](research/feedback_vs_exponential.py) · [seven unit tests](tests/test_feedback_protocol.py).
+
+Run a short reproducibility check from the repository root:
+
+```bash
+python -m unittest discover -s tests -p 'test_feedback_protocol.py' -v
+python research/feedback_vs_exponential.py --quick --output results_feedback
+```
+
+This is a dimensionless stochastic toy experiment, **not** an all-atom RAMD validation or an unbiased residence-time estimator.
+
 *Can reaction-coordinate quality and dynamical memory predict failure of RAMD kinetic unbiasing?*
 
 [Exploratory benchmark source](research/memory_rc_validity_benchmark.py).
