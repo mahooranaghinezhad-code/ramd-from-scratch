@@ -127,6 +127,12 @@ trajectory samples.
 | 3 | 0.25 | -0.382 | [-0.952, 0.189] | 0.137 | 0.546 | 1.219 / 1.052 |
 | 3 | 0.55 | -0.336 | [-0.578, -0.094] | 0.0183 | 0.0733 | 1.107 / 1.009 |
 
+The [archived rounded per-seed pilot CSV](../research/checkpoint_randomized_pilot_20batches.csv)
+contains all 20 condition × seed summaries. Values in that public CSV are
+rounded for readability; the Python code generates full-precision per_seed.csv
+and conditions.csv. No individual trajectory data are archived in the
+summary file.
+
 **No robust kinetic conclusion:** One uncorrected time-difference CI does
 not cross zero, but the Bonferroni-adjusted p is 0.0733. Also, four
 force/threshold combinations and five independent batches are not enough
