@@ -33,6 +33,8 @@ The original C++ learning steps are retained in the repository.
 
 **[Read the research hypothesis](docs/research_gap.md)**
 
+**[2026 literature update: feedback-aware RAMD and a testable gap](docs/feedback_aware_ramd_literature_update.md)**
+
 *Can reaction-coordinate quality and dynamical memory predict failure of RAMD kinetic unbiasing?*
 
 [Exploratory benchmark source](research/memory_rc_validity_benchmark.py).
