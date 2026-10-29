@@ -131,6 +131,34 @@ run the relative escape-time ordering reversed. Thus NO new physical
 conclusion about feedback direction, accuracy of Roux's theory,
 or protein residence times is claimed.
 
+## Replication across independent random seeds (local exploratory check)
+
+With 384 trajectories **per protocol per seed**, identical physical settings,
+and seeds 2026–2030, the feedback-minus-exponential differences in
+restricted mean escape time were, in time units:
+
+| Seed | Feedback | Exponential | Feedback - exponential | Feedback out/in |
+|---|---:|---:|---:|---:|
+| 2026 | 4.413 | 4.688 | -0.275 | 1.080 |
+| 2027 | 4.352 | 4.572 | -0.219 | 1.100 |
+| 2028 | 4.531 | 4.472 | +0.060 | 1.094 |
+| 2029 | 4.556 | 4.605 | -0.049 | 1.087 |
+| 2030 | 4.617 | 4.350 | +0.267 | 1.089 |
+
+All trajectories escaped before the 70-unit time limit in these runs.
+Across these **five** independently calibrated batches, the mean difference
+was about **-0.043** with an across-batch SEM of about **0.098** time
+units. The sign reversal makes clear that **these data do not establish
+a meaningful change in mean escape time due to feedback** at this
+parameter point. The feedback out/in persistence proxy remained above
+one, but that does not yet demonstrate a useful kinetic-error diagnostic.
+
+These summaries are exploratory (small number of independent batches,
+no grid of force strengths, no timestep extrapolation, and no
+multiplicity-controlled uncertainty). Never claim these tables are a
+publication-ready statistical study or a validation of ligand residence
+times.
+
 ## Planned next controls
 
 - Multi-seed confidence intervals and empirical censoring curves.
