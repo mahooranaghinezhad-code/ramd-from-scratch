@@ -69,6 +69,10 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_feedback_sensitivity_scan.py' -v
       - name: Feedback sensitivity grid (CI smoke, not a convergence study)
         run: python research/feedback_sensitivity_scan.py --quick --output results_feedback_sweep
+      - name: Checkpoint-randomized control regression tests
+        run: python -m unittest discover -s tests -p 'test_randomized_checkpoint_control.py' -v
+      - name: Three-protocol checkpoint control (CI smoke only)
+        run: python research/checkpoint_randomized_control.py --quick --output results_checkpoint_control
       - name: Upload generated results
         if: always()
         uses: actions/upload-artifact@v4
@@ -80,6 +84,7 @@ jobs:
             results_paper1/
             results_feedback/
             results_feedback_sweep/
+            results_checkpoint_control/
           if-no-files-found: ignore
   cpp:
     runs-on: ubuntu-latest

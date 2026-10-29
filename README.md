@@ -39,6 +39,9 @@ The original C++ learning steps are retained in the repository.
 
 **Follow-up parameter sweep:** [force / displacement threshold / timestep results](docs/feedback_sensitivity_study.md) · [reproducible scan code](research/feedback_sensitivity_scan.py) · [40 independent seed-batch records](research/feedback_sensitivity_pilot_40batches.csv). The scan provides an exploratory directional-persistence observation, **not** a validated kinetic correction or a statistically conclusive residence-time result.
 
+
+**Third protocol control (2026):** [pilot-count-matched randomized checkpoints](docs/checkpoint_randomized_control.md) · [simulation and statistics](research/checkpoint_randomized_control.py) · [7 control regression tests](tests/test_randomized_checkpoint_control.py) · [rounded 20-batch dataset](research/checkpoint_randomized_pilot_20batches.csv). This removes displacement from the *individual switching decision* while preserving the checkpoint schedule and pilot-calibrated global reset fraction; a promising mechanistic diagnostic is **not** equivalent to validated unbiased kinetics.
+
 Run a short reproducibility check from the repository root:
 
 ```bash
