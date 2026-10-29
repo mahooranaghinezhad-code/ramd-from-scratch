@@ -134,7 +134,7 @@ def effective_smolu_mfpt(force, height=5., left=-2., start=-1., right=0.85):
     inner[1:] = np.cumsum((a[1:]+a[:-1])*np.diff(xs)/2)
     outer = np.exp(U/teff)*inner/diffusion
     mask = xs >= start
-    return float(np.trapz(outer[mask], xs[mask]))
+    return float(np.trapezoid(outer[mask], xs[mask]))
 
 
 def main():
