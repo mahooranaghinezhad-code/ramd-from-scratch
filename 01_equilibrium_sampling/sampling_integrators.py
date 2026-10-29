@@ -42,7 +42,7 @@ def grad_potential(x):
 def exact_gibbs_density(grid):
     """rho(x) = Z^{-1} exp[-beta U(x)]."""
     unnormalized = np.exp(-BETA * potential(grid))
-    Z = np.trapz(unnormalized, grid)
+    Z = np.trapezoid(unnormalized, grid)
     return unnormalized / Z
 
 
@@ -114,7 +114,7 @@ def interpolate_exact_density(centers, exact_grid, exact_density):
 
 def l1_error(sampled, exact, x):
     """Integral |rho_sampled - rho_exact| dx."""
-    return np.trapz(np.abs(sampled - exact), x)
+    return np.trapezoid(np.abs(sampled - exact), x)
 
 
 def kl_divergence(sampled, exact, x):
@@ -122,7 +122,7 @@ def kl_divergence(sampled, exact, x):
     eps = 1.0e-12
     p = sampled + eps
     q = exact + eps
-    return np.trapz(p * np.log(p / q), x)
+    return np.trapezoid(p * np.log(p / q), x)
 
 
 def observable_x2(samples):
