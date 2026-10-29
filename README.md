@@ -1,5 +1,7 @@
 # RAMD from Scratch — Literature-to-Code Portfolio
 
+[![Scientific validation](https://github.com/mahooranaghinezhad-code/ramd-from-scratch/actions/workflows/validate.yml/badge.svg)](https://github.com/mahooranaghinezhad-code/ramd-from-scratch/actions/workflows/validate.yml)
+
 An exploratory computational-biophysics project connecting **statistical mechanics, molecular sampling, rare events, reaction coordinates, and accelerated ligand dissociation**.
 
 This repository contains educational model implementations and a **testable RAMD research hypothesis**. It is **not** a validated method for recovering experimental residence times, nor a reproduction of full protein–ligand molecular dynamics.
