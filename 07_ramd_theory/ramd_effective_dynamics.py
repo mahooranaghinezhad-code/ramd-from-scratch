@@ -140,6 +140,7 @@ def effective_smolu_mfpt(force, height=5., left=-2., start=-1., right=0.85):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--seed',type=int,default=2026)
+    p.add_argument('--quick', action='store_true', help='Small deterministic smoke run; not suitable for quantitative conclusions')
     p.add_argument('--output',type=Path,default=Path('results_paper1'))
     args = p.parse_args()
     args.output.mkdir(parents=True,exist_ok=True)
@@ -147,9 +148,9 @@ def main():
     records = []
     for f in FORCES:
         d_model,t_model = theory(f)
-        d_obs = free_diffusion(f,rng)
-        temp_obs = harmonic_temperature(f,rng)
-        t_escape = escape_simulation(f,rng)
+        d_obs = free_diffusion(f,rng, n=180 if args.quick else 1800, steps=900 if args.quick else 5000)
+        temp_obs = harmonic_temperature(f,rng, n=180 if args.quick else 1200, steps=1100 if args.quick else 6500, burn=200 if args.quick else 1500)
+        t_escape = escape_simulation(f,rng, n=70 if args.quick else 450, steps=1800 if args.quick else 16000)
         n_escaped = int(np.isfinite(t_escape).sum())
         observed_mean = np.nan if n_escaped < len(t_escape) else float(np.mean(t_escape))
         prediction = effective_smolu_mfpt(f)
