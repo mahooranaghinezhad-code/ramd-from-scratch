@@ -26,12 +26,12 @@ In a local run of the **equivalent mathematical kernels** (not a complete end-to
 | Stored Monte Carlo samples per window | 22,500 |
 | WHAM iterations to convergence | 404 |
 | WHAM probability normalization | 1.0 (within numerical precision) |
-| WHAM central-region PMF RMSE, |x| <= 1.3 | approx. 0.034 kBT |
+| WHAM central-region PMF RMSE, abs(x) <= 1.3 | approx. 0.034 kBT |
 | MBAR subsample | 500 samples per window |
 | MBAR self-consistency iterations | approx. 452 |
 | MBAR target-weight normalization | 1.0 (within numerical precision) |
 | MBAR target weight effective sample size | approx. 2,873 |
-| MBAR central-region PMF RMSE, |x| <= 1.3 | approx. 0.379 kBT |
+| MBAR central-region PMF RMSE, abs(x) <= 1.3 | approx. 0.379 kBT |
 
 These are **dimensionless educational simulations** against a known exact
 toy potential. Edge bins are sparsely sampled and have much larger errors.
