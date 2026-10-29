@@ -1,4 +1,5 @@
 """Fast regression checks for the sensitivity-study protocol controls."""
+import csv
 import tempfile
 import unittest
 from pathlib import Path
@@ -41,6 +42,21 @@ class SweepTests(unittest.TestCase):
         self.assertTrue(all(r['status']=='no_feedback_resets' for r in rows))
         self.assertEqual(aggregate(rows)[0]['n_valid_batches'], 0)
         self.assertEqual(len(controls),2)
+
+    def test_archived_pilot_csv_internal_consistency(self):
+        path=Path("research/feedback_sensitivity_pilot_40batches.csv")
+        with path.open(newline="",encoding="utf-8") as file:
+            rows=list(csv.DictReader(file))
+        self.assertEqual(len(rows),40)
+        combos={}
+        for row in rows:
+            k=(float(row["force"]),float(row["min_progress"]),float(row["dt"]))
+            combos.setdefault(k,set()).add(int(row["seed"]))
+            self.assertAlmostEqual(float(row["delta_rmst"]),
+                                   float(row["fb_rmst"])-float(row["exp_rmst"]),places=10)
+            self.assertGreater(float(row["tau_pilot"]),0.)
+        self.assertEqual(len(combos),8)
+        self.assertTrue(all(len(v)==5 for v in combos.values()))
 
     def test_small_scan_writes_all_outputs(self):
         plan=ScanPlan(forces=(1.,),thresholds=(.55,),timesteps=(.005,.0025),
