@@ -37,6 +37,8 @@ The original C++ learning steps are retained in the repository.
 
 **First feedback-vs-exponential controlled experiment:** [scientific protocol and limitations](docs/feedback_protocol_experiment.md) · [Python source](research/feedback_vs_exponential.py) · [seven unit tests](tests/test_feedback_protocol.py).
 
+**Follow-up parameter sweep:** [force / displacement threshold / timestep results](docs/feedback_sensitivity_study.md) · [reproducible scan code](research/feedback_sensitivity_scan.py) · [40 independent seed-batch records](research/feedback_sensitivity_pilot_40batches.csv). The scan provides an exploratory directional-persistence observation, **not** a validated kinetic correction or a statistically conclusive residence-time result.
+
 Run a short reproducibility check from the repository root:
 
 ```bash
