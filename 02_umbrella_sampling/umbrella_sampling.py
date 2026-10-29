@@ -192,7 +192,7 @@ def run_umbrella_windows():
 def exact_equilibrium_density(grid):
     """Exact 1D Gibbs density for comparison."""
     unnormalized = np.exp(-BETA * potential(grid))
-    normalization = np.trapz(unnormalized, grid)
+    normalization = np.trapezoid(unnormalized, grid)
     return unnormalized / normalization
 
 
