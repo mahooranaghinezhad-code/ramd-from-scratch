@@ -78,21 +78,50 @@ def _correlation(trace: np.ndarray, dt_between: float, max_lags: int = 45):
     return lags * dt_between, np.asarray(values)
 
 
-def simulate(cfg: Config, protocol: str, seed: int, tau: float | None = None):
+def randomized_checkpoint_mask(n_eligible: int, probability: float,
+                               n_seen: int, n_resets: int, rng):
+    """Choose a uniform random subset at each checkpoint, without displacement.
+
+    The number selected makes cumulative resets approximately round(p *
+    cumulative eligible checkpoint opportunities), so the *global* switch
+    frequency is held within one reset of the independent-pilot target.
+    This is a count-matched randomized control, not a Poisson process.
+    """
+    if n_eligible < 0 or not np.isfinite(probability) or not 0 <= probability <= 1:
+        raise ValueError("Invalid checkpoint opportunities or reset probability")
+    target = int(np.floor(probability * (n_seen + n_eligible) + 0.5))
+    count = target - n_resets
+    if count < 0 or count > n_eligible:
+        raise RuntimeError("Cumulative reset quota cannot be satisfied")
+    mask = np.zeros(n_eligible, dtype=bool)
+    if count:
+        mask[rng.choice(n_eligible, size=count, replace=False)] = True
+    return mask
+
+
+def simulate(cfg: Config, protocol: str, seed: int, tau: float | None = None,
+             switch_probability: float | None = None):
     """Matched-potential independent escapes; orientation reset *after* step.
 
     feedback: at each checkpoint, retain orientation if 2D COM displacement
               since previous checkpoint >= min_progress.
     exponential: memoryless per-step reset probability 1-exp(-dt/tau).
+    checkpoint_random: at the SAME periodic checkpoints as feedback,
+              uniformly randomize which alive trajectories reset, with a
+              cumulative count calibrated from an INDEPENDENT feedback pilot.
+              No progress/displacement is consulted for the decision.
     unbiased: zero external force; no direction resets.
 
     End-of-path orientation segments are right-censored; reset-rate estimates
     use total at-risk exposure / completed reset events, not completed-only means.
     """
-    if protocol not in ("feedback", "exponential", "unbiased"):
+    if protocol not in ("feedback", "exponential", "checkpoint_random", "unbiased"):
         raise ValueError("Invalid direction protocol")
     if protocol == "exponential" and (tau is None or not np.isfinite(tau) or tau <= 0):
         raise ValueError("Exponential persistence tau must be finite and positive")
+    if protocol == "checkpoint_random" and (switch_probability is None or
+            not np.isfinite(switch_probability) or not 0 <= switch_probability <= 1):
+        raise ValueError("checkpoint_random needs a pilot reset probability in [0,1]")
     if cfg.replicas < 2 or cfg.steps < 1 or cfg.dt <= 0 or cfg.kbt <= 0 or cfg.check_steps < 1:
         raise ValueError("Invalid integration settings")
     if cfg.min_progress < 0 or cfg.right <= cfg.start or cfg.start <= cfg.left:
@@ -109,6 +138,7 @@ def simulate(cfg: Config, protocol: str, seed: int, tau: float | None = None):
     reset_count = np.zeros(n, dtype=int)
     exposure = np.zeros(2)
     resets = np.zeros(2, dtype=int)
+    checkpoint_opportunities = 0
     basin_nx_sum = 0.0
     basin_frames = 0
     trace_n = min(cfg.trace_replicas, n)
@@ -147,8 +177,17 @@ def simulate(cfg: Config, protocol: str, seed: int, tau: float | None = None):
         else:
             swap = np.zeros(len(remaining), bool)
             if step % cfg.check_steps == 0:
-                progress = np.hypot(x[remaining]-ref_x[remaining], y[remaining]-ref_y[remaining])
-                swap = feedback_switch(progress, cfg.min_progress)
+                if protocol == "feedback":
+                    progress = np.hypot(x[remaining]-ref_x[remaining], y[remaining]-ref_y[remaining])
+                    swap = feedback_switch(progress, cfg.min_progress)
+                else:
+                    # Exact cumulative global reset QUOTA from the independent
+                    # pilot, but random assignment to individuals. Timing
+                    # opportunities and force/potential stay identical.
+                    swap = randomized_checkpoint_mask(
+                        len(remaining), switch_probability,
+                        checkpoint_opportunities, int(resets.sum()), rng)
+                checkpoint_opportunities += len(remaining)
                 ref_x[remaining] = x[remaining]
                 ref_y[remaining] = y[remaining]
         changing = remaining[swap]
@@ -174,6 +213,9 @@ def simulate(cfg: Config, protocol: str, seed: int, tau: float | None = None):
         "n_censored":int((~observed).sum()), "rmst":restricted,"mfpt_if_complete":mfpt,
         "sem_if_complete":sem,"n_resets":int(resets.sum()), "reset_counts":resets,
         "exposure":exposure,"tau_empirical":tau_empirical,
+        "checkpoint_opportunities":checkpoint_opportunities,
+        "checkpoint_reset_fraction": (float(resets.sum()/checkpoint_opportunities)
+                                      if checkpoint_opportunities else None),
         "persistence_ratio_out_in":ratio,
         "mean_force_x_in_basin": force*basin_nx_sum/max(basin_frames,1),
         "corr_t":corr_time,"corr":corr,
