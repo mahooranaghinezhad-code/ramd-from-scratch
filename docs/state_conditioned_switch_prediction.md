@@ -128,7 +128,7 @@ Additionally:
 Implementation:
 [research/state_conditioned_switching.py](../research/state_conditioned_switching.py)
 
-Nine unit/regression tests:
+Ten unit/regression tests:
 [tests/test_state_conditioned_switching.py](../tests/test_state_conditioned_switching.py)
 
 Run from repository root:
@@ -147,8 +147,12 @@ The script produces:
 The archived
 [full-pilot summary](../research/state_conditioned_switch_summary_2026.csv)
 records the mean scores from the independent local simulation.
-For reproduction and exact per-seed analysis, run the script as
-documented rather than relying on rounded prose summaries.
+The archived [16 held-out seed-level metrics](../research/state_conditioned_switch_heldout_seeds_2026.csv)
+include log loss and Brier score for each seed and protocol. For full
+calibration bins and reproducibility, run the script as documented.
+
+Calibration is imperfect in some sparsely populated bins; improved
+aggregate log loss is not evidence of a calibrated kinetic hazard.
 
 The unit tests verify: equality of instrumented and baseline
 dynamics for both protocols with identical RNG seeds; no future
