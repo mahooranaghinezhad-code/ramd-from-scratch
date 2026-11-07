@@ -85,6 +85,10 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_topology_girsanov_benchmark.py' -v
       - name: Cross-topology reweighting smoke (not scientific convergence)
         run: python research/topology_girsanov_benchmark.py --quick --output results_topology_quick
+      - name: Coupled dynamics and importance weighting regression tests
+        run: python -m unittest discover -s tests -p 'test_ess_scaling_coupled.py' -v
+      - name: ESS versus force/time quick smoke
+        run: python research/ess_scaling_coupled.py --quick --output results_ess_quick
       - name: Upload generated results
         if: always()
         uses: actions/upload-artifact@v4
@@ -100,6 +104,7 @@ jobs:
             results_state_switch/
             results_heldout_quick/
             results_topology_quick/
+            results_ess_quick/
           if-no-files-found: ignore
   cpp:
     runs-on: ubuntu-latest
@@ -170,4 +175,25 @@ jobs:
         with:
           name: topology-girsanov-pilot
           path: results_topology_pilot/
+          if-no-files-found: warn
+
+  coupled-ess-pilot:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install numerical dependencies
+        run: pip install numpy matplotlib
+      - name: Run coupled ESS and predeclared truncated-weights study
+        run: python research/ess_scaling_coupled.py --output results_ess_pilot
+      - name: Archive full coupled-potential benchmark and reference Monte Carlo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coupled-ess-pilot
+          path: results_ess_pilot/
           if-no-files-found: warn
