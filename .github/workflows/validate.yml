@@ -73,6 +73,10 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_randomized_checkpoint_control.py' -v
       - name: Three-protocol checkpoint control (CI smoke only)
         run: python research/checkpoint_randomized_control.py --quick --output results_checkpoint_control
+      - name: State-conditioned switching regression tests
+        run: python -m unittest discover -s tests -p 'test_state_conditioned_switching.py' -v
+      - name: State-conditioned switching held-out seed smoke
+        run: python research/state_conditioned_switching.py --quick --output results_state_switch
       - name: Upload generated results
         if: always()
         uses: actions/upload-artifact@v4
@@ -85,6 +89,7 @@ jobs:
             results_feedback/
             results_feedback_sweep/
             results_checkpoint_control/
+            results_state_switch/
           if-no-files-found: ignore
   cpp:
     runs-on: ubuntu-latest

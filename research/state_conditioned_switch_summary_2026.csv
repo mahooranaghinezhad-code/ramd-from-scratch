@@ -1,0 +1,5 @@
+condition,force,threshold,protocol,n_train_batches,n_heldout_batches,total_test_events,mean_gain_vs_time,mean_gain_vs_constant,n_batches_state_beats_time
+0,1.0,0.55,feedback,5,4,41044,0.010170817314727881,0.010211845368606864,4
+0,1.0,0.55,checkpoint_random,5,4,44449,-1.4238681722039681e-05,-1.4221456453383796e-05,2
+1,3.0,0.25,feedback,5,4,25088,0.00444200148590114,0.004497025973511759,4
+1,3.0,0.25,checkpoint_random,5,4,27067,-3.749788465996773e-05,-3.770306674330537e-05,1
