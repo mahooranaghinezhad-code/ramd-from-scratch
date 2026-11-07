@@ -76,6 +76,21 @@ class StateConditionedSwitchTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 evaluate(Study(train_seeds=(2026,),test_seeds=(2026,),replicas=8,horizon=1),Path(d))
 
+    def test_archived_heldout_scores_are_internally_consistent(self):
+        path=Path("research/state_conditioned_switch_heldout_seeds_2026.csv")
+        with path.open(newline="",encoding="utf-8") as fp:
+            entries=list(csv.DictReader(fp))
+        self.assertEqual(len(entries),16)
+        groups={}
+        for row in entries:
+            key=(float(row["force"]),float(row["threshold"]),row["protocol"])
+            groups.setdefault(key,set()).add(int(row["heldout_seed"]))
+            self.assertAlmostEqual(float(row["improvement_state_vs_time"]),
+                float(row["logloss_time"])-float(row["logloss_state"]),places=10)
+            self.assertGreater(int(row["n_events"]),100)
+        self.assertEqual(len(groups),4)
+        self.assertTrue(all(seeds=={2031,2032,2033,2034} for seeds in groups.values()))
+
     def test_end_to_end_quick_separate_protocols(self):
         study=Study(conditions=((3.,.25),),replicas=32,horizon=3.,
                     train_seeds=(2026,2027),test_seeds=(2030,2031))
