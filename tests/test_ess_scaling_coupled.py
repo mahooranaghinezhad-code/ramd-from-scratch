@@ -118,6 +118,32 @@ class CoupledESSChecks(unittest.TestCase):
         # not just a force-component or diagnostic label.
         self.assertFalse(np.array_equal(uncoupled[3.]["stop"],coupled[3.]["stop"]))
 
+    def test_archived_pr_pilot_is_internally_consistent(self):
+        from collections import defaultdict
+        p=Path("research")
+        with (p/"ess_coupled_conditions_2026.csv").open(newline="") as fh:
+            conditions=list(csv.DictReader(fh))
+        with (p/"ess_coupled_per_seed_2026.csv").open(newline="") as fh:
+            samples=list(csv.DictReader(fh))
+        with (p/"ess_coupled_F0_reference_2026.csv").open(newline="") as fh:
+            refs=list(csv.DictReader(fh))
+        self.assertEqual(len(conditions),24)
+        self.assertEqual(len(samples),72)
+        self.assertEqual(len(refs),6)
+        grouped=defaultdict(list)
+        for r in samples:
+            key=(float(r["coupling"]),float(r["force"]),float(r["horizon"]))
+            grouped[key].append(r)
+        self.assertEqual(len(grouped),24)
+        for r in conditions:
+            key=(float(r["coupling"]),float(r["force"]),float(r["horizon"]))
+            group=grouped[key]
+            self.assertEqual(len(group),3)
+            mu=sum(float(s["ess_fraction"]) for s in group)/3
+            self.assertAlmostEqual(mu,float(r["mean_ess_fraction"]),places=11)
+            self.assertEqual({int(s["seed"]) for s in group},{2026,2027,2028})
+        self.assertTrue(all(int(r["n_reference"])==10500 for r in refs))
+
     def test_small_full_sweep_writes_every_output(self):
         p=m.Plan(couplings=(0.,1.2),forces=(0.,.9),
                  horizons=(.5,1.),test_seeds=(2026,2027),
