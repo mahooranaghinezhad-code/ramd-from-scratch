@@ -157,6 +157,54 @@ Outputs:
 - heldout_reliability.png — errors, gains and exploratory scatter;
 - LIMITATIONS.txt — limitations carried with outputs.
 
+## Measured exploratory pilot — GitHub Actions run 42383181464
+
+The independent numerical job completed on November 7, 2026. Its output
+artifact is **heldout-kinetic-pilot**, from the
+[actual PR workflow run](https://github.com/mahooranaghinezhad-code/ramd-from-scratch/actions/runs/42383181464).
+The frozen classifiers were trained once, using **40,293 source checkpoint
+records**; both model coefficient arrays and source scaling factors are
+saved in the workflow artifact.
+
+There were **four held-out barrier heights**, three unseen test force
+magnitudes, and three independent evaluation RNG seeds per height.
+For this **72-replica/force** pilot, **all 12 height × seed kinetic
+extrapolations were usable** and no forced escape trajectory was censored.
+There is still considerable independent-seed sampling uncertainty.
+
+The table lists mean absolute log reconstruction errors over the
+three independent evaluation seeds. These are dimensionless, not percent
+error, and the reported error is NOT the switching classifier's error:
+
+| Held-out H | Exact F=0 MFPT | Frozen switching gain (time minus state log loss) | Feedback kinetic log-error | Exponential kinetic log-error |
+|---:|---:|---:|---:|---:|
+| 1.5 | 3.8903 | +0.00139 | 0.07757 | 0.07320 |
+| 2.0 | 4.9002 | +0.00714 | 0.12020 | 0.08570 |
+| 3.0 | 8.6960 | +0.01116 | 0.18386 | 0.09704 |
+| 3.5 | 12.0847 | +0.01100 | 0.25856 | 0.09466 |
+
+The table is archived as
+[heldout_landscape_pilot_2026.csv](../research/heldout_landscape_pilot_2026.csv).
+The artifact includes all per-force and per-seed measurements and
+a plot, not just aggregated values.
+
+Across **only four** held-out heights, the descriptive Spearman rank
+association between classifier gain and feedback kinetic log-error was
+rho≈+0.8. The association with the feedback-minus-exponential
+reconstruction error was also rho≈+0.8. **Neither value establishes
+significance, causation, or out-of-family predictive generalization.**
+Both gain and kinetic extrapolation error may depend on the same
+increasing barrier height, making H a serious confounder.
+
+**Scientific reading:** this pilot shows that a frozen switch predictor
+can be evaluated without retraining on unseen H and F, and that the
+chosen heuristic extrapolation has measurable, sometimes substantial
+errors against a true reference. It does **not** show that our
+switch-prediction gain independently predicts error in a real RAMD
+kinetic correction. To test that harder claim we need independent
+potential topologies, stronger uncertainty quantification, and an
+externally validated reconstruction procedure.
+
 ## Before claiming novelty or scientific reliability
 
 A useful **positive** result would require convincing predictive value
