@@ -136,6 +136,86 @@ The full pilot is executed and archived by a separate GitHub Actions
 pull-request job so the numerical evidence is not a claimed simulation
 that was never run.
 
+## Actual independent GitHub Actions pilot results — November 7, 2026
+
+The full prespecified pilot **completed successfully**, using the
+[PR workflow run #42386043645](https://github.com/mahooranaghinezhad-code/ramd-from-scratch/actions/runs/42386043645)
+and the downloadable **coupled-ess-pilot** artifact. This report
+is grounded in the outputs of the actual simulation, not projected
+or fabricated numbers.
+
+The exact archived numerical data are:
+- [24-condition summary](../research/ess_coupled_conditions_2026.csv)
+- [72 independently seeded measurements](../research/ess_coupled_per_seed_2026.csv)
+- [6 high-sample independent F=0 references](../research/ess_coupled_F0_reference_2026.csv)
+
+### First validation of a genuinely coupled system
+
+With no external random force and observation horizon 8, the
+**independent** F=0 Monte Carlo reference gave
+
+| Coupling c | E_0[min(T,8)] | Independent MC standard error | Total direct reference paths |
+|---:|---:|---:|---:|
+| 0 (separable) | 4.6588 | 0.0269 | 10,500 |
+| 1.2 (coupled) | 6.0685 | 0.0244 | 10,500 |
+
+Thus the same x barrier but a slow cross-coupled coordinate changes
+the restricted escape-time statistic. This is *numerical*, not a
+proof of a specific protein gating mechanism.
+
+### Force and time versus ESS
+
+All following values are averages across three **independent**
+seed batches, each with 192 paths. They are normalized ESS/N,
+so 1.0 means equal weights. The specified comparison uses c=1.2.
+
+| Force F | Horizon 2: ESS/N | Horizon 4: ESS/N | Horizon 8: ESS/N |
+|---:|---:|---:|---:|
+| 0.0 | 1.000 | 1.000 | 1.000 |
+| 0.6 | 0.800 | 0.598 | 0.505 |
+| 1.2 | 0.313 | 0.162 | 0.128 |
+| 2.0 | 0.107 | 0.133 | 0.027 |
+
+ESS generally deteriorated with strong forces and longer histories,
+though the F=2 row is **not monotonic** between horizons 2 and 4
+in this small finite-seed experiment. The F=2, h=8 result
+ESS/N≈0.0267 corresponds to roughly **5.1 effective paths**
+from 192 simulated paths per seed.
+
+### Does published-style truncation help?
+
+| Coupling | Force | Horizon | Standard ESS/N | Truncated ESS/N | Standard mean abs RMST error | Truncated mean abs RMST error |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1.2 | 1.2 | 8 | 0.1285 | 0.1768 | 0.4088 | 0.5415 |
+| 1.2 | 2.0 | 8 | 0.0267 | 0.0802 | 0.8884 | 0.8243 |
+| 0.0 | 2.0 | 4 | 0.0467 | 0.1322 | 0.3093 | 0.0355 |
+| 0.0 | 2.0 | 8 | 0.1061 | 0.1515 | 0.7183 | 0.8186 |
+
+The finite-N estimator with truncated weights can sometimes substantially
+decrease **absolute error**, but can also **increase error** while
+raising ESS. This is a diagnostic, not proof of unbiasedness
+or reproducible improvement. There is only one predeclared cutoff,
+a small number of independent batches, and no independent validation
+of this particular truncation strategy on different potentials.
+ESS alone is **not** a sufficient proxy for correctness.
+
+The conventional and truncated estimators use the same *restricted
+time* target as each independently estimated F=0 reference.
+Our direct Monte Carlo controls have nonzero standard errors
+and the test paths include administrative censoring correctly
+through min(T,h).
+
+### Additional scientific caution
+
+The available experiments show strong *weight overlap loss* in
+long biased paths under this toy process; they do **not** establish
+that a higher-ESS estimator fixes the inverse kinetics problem.
+The Ionides-inspired cutoff introduces bias and is not PSIS or MGR.
+In particular, in the coupled F=1.2,h=8 condition, clipping made
+the estimator's mean absolute error worse by ~0.133 despite higher ESS.
+This negative result is relevant to choosing meaningful reliability
+criteria rather than assuming large ESS implies correct kinetics.
+
 ## Interpretation and what is NOT established
 
 - Strict increase of ESS decay with every parameter is not guaranteed
