@@ -138,7 +138,7 @@ def importance_estimates(log_weights, restricted_times):
 
     # min(exp(logw), sqrt(n)), stably scaled by exp(-a).
     cutoff=.5*np.log(n)
-    clipped=np.exp(np.minimum(lw,cutoff)-max(a,cutoff))
+    clipped=np.exp(np.minimum(lw,cutoff)-min(a,cutoff))
     clip_norm=clipped/np.sum(clipped)
     clipped_est=float(np.dot(clip_norm,tt))
     clipped_ess=float(1/np.dot(clip_norm,clip_norm))
