@@ -50,6 +50,9 @@ The original C++ learning steps are retained in the repository.
 
 **Out-of-topology and path-reweighting stress test (Nov 2026):** [method derivation and honest limitations](docs/topology_girsanov_reliability.md) · [four new potential shapes + discrete Girsanov code](research/topology_girsanov_benchmark.py) · [11 scientific tests](tests/test_topology_girsanov_benchmark.py) · [pilot summary](research/topology_girsanov_pilot_2026.csv). On unseen shapes, the frozen switching classifier often worsens, and conventional full-path importance weights can have severe ESS collapse. Results are exploratory on separable dimensionless toy dynamics, **not** validated ligand kinetics.
 
+**Coupled 2D ESS scaling / published-style truncation (Nov 2026):** [research methods, limitations and source paper](docs/ess_scaling_coupled_study.md) · [numerical benchmark source](research/ess_scaling_coupled.py) · [ten mathematical and regression checks](tests/test_ess_scaling_coupled.py). Measures effective-sample-size decline versus random-force strength and observation horizon in truly coupled x–y overdamped Langevin dynamics, comparing conventional full-path SNIS with **Ionides (2008)-inspired deterministic sqrt(N)-truncated, self-normalized weights**. The truncated estimator introduces finite-sample bias and is **not MGR, PSIS or an experimentally validated RAMD kinetic correction**.
+
+
 Run a short reproducibility check from the repository root:
 
 ```bash
