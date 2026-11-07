@@ -81,6 +81,10 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_heldout_kinetic_reliability.py' -v
       - name: Held-out landscape kinetic study (CI smoke only)
         run: python research/heldout_kinetic_reliability.py --quick --output results_heldout_quick
+      - name: Different potential shapes and Gaussian path ratio tests
+        run: python -m unittest discover -s tests -p 'test_topology_girsanov_benchmark.py' -v
+      - name: Cross-topology reweighting smoke (not scientific convergence)
+        run: python research/topology_girsanov_benchmark.py --quick --output results_topology_quick
       - name: Upload generated results
         if: always()
         uses: actions/upload-artifact@v4
@@ -95,6 +99,7 @@ jobs:
             results_checkpoint_control/
             results_state_switch/
             results_heldout_quick/
+            results_topology_quick/
           if-no-files-found: ignore
   cpp:
     runs-on: ubuntu-latest
@@ -144,4 +149,25 @@ jobs:
         with:
           name: heldout-kinetic-pilot
           path: results_heldout_pilot/
+          if-no-files-found: warn
+
+  topology-physics-pilot:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install numerical requirements
+        run: pip install numpy matplotlib
+      - name: Run different-topology and path-weighting exploratory pilot
+        run: python research/topology_girsanov_benchmark.py --output results_topology_pilot
+      - name: Archive full numerical output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: topology-girsanov-pilot
+          path: results_topology_pilot/
           if-no-files-found: warn
