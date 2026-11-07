@@ -44,6 +44,9 @@ The original C++ learning steps are retained in the repository.
 
 **New pilot: predicting the NEXT feedback decision from the CURRENT state:** [held-out seed-batch study and assumptions](docs/state_conditioned_switch_prediction.md) · [source code](research/state_conditioned_switching.py) · [ten leakage/dynamics tests](tests/test_state_conditioned_switching.py) · [local pilot summary](research/state_conditioned_switch_summary_2026.csv). The state model improves held-out next-switch prediction for feedback relative to a time-only baseline in two tested toy conditions, but not in randomized checkpoint controls. **This is not yet a kinetic unbiasing or residence-time reliability method.**
 
+
+**New held-out kinetic benchmark:** [study design and mathematical limitations](docs/heldout_kinetic_reliability.md) · [frozen classifier + force extrapolation source](research/heldout_kinetic_reliability.py) · [regression tests](tests/test_heldout_kinetic_reliability.py). Trains on H=2.5 only and evaluates on previously unseen barrier heights and forces without refitting the switching models. Separately compares a **heuristic** force-to-zero MFPT extrapolation against an exact F=0 toy reference; no validated kinetic unbiasing correction is claimed.
+
 Run a short reproducibility check from the repository root:
 
 ```bash
