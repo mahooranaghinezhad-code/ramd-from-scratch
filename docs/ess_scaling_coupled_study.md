@@ -199,6 +199,8 @@ a small number of independent batches, and no independent validation
 of this particular truncation strategy on different potentials.
 ESS alone is **not** a sufficient proxy for correctness.
 
+In the coupled c=1.2, F=2, h=8 condition, **only 1 of the 3 individual seed batches** had lower absolute error after truncation despite the lower mean error. For c=1.2, F=1.2, h=8, **0 of 3** seed batches improved. This precludes a general claim that truncated weights are more accurate.
+
 The conventional and truncated estimators use the same *restricted
 time* target as each independently estimated F=0 reference.
 Our direct Monte Carlo controls have nonzero standard errors
