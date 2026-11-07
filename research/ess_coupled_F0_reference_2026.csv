@@ -1,0 +1,7 @@
+coupling,horizon,reference_rmst,reference_sem,n_reference,n_censored,reference_method
+0.0,2.0,1.783009523809524,0.004449625315097888,10500,7975,independent direct F=0 MC; NOT analytic PDE
+0.0,4.0,3.07444,0.01210683510382485,10500,5696,independent direct F=0 MC; NOT analytic PDE
+0.0,8.0,4.658797142857142,0.026899800081864395,10500,2913,independent direct F=0 MC; NOT analytic PDE
+1.2,2.0,1.9195561904761904,0.0026935241228742387,10500,9372,independent direct F=0 MC; NOT analytic PDE
+1.2,4.0,3.555814285714286,0.008920935635385948,10500,7824,independent direct F=0 MC; NOT analytic PDE
+1.2,8.0,6.068493333333334,0.024354648390252535,10500,5535,independent direct F=0 MC; NOT analytic PDE
