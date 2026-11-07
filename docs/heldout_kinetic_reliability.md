@@ -185,8 +185,10 @@ error, and the reported error is NOT the switching classifier's error:
 
 The table is archived as
 [heldout_landscape_pilot_2026.csv](../research/heldout_landscape_pilot_2026.csv).
-The artifact includes all per-force and per-seed measurements and
-a plot, not just aggregated values.
+The **12 complete independent-seed reconstructions** are additionally
+archived as [heldout_seed_reconstructions_2026.csv](../research/heldout_seed_reconstructions_2026.csv).
+The workflow artifact includes the 36 per-force measurements,
+full-precision coefficients, and the plotted results.
 
 Across **only four** held-out heights, the descriptive Spearman rank
 association between classifier gain and feedback kinetic log-error was
@@ -195,6 +197,18 @@ reconstruction error was also rho≈+0.8. **Neither value establishes
 significance, causation, or out-of-family predictive generalization.**
 Both gain and kinetic extrapolation error may depend on the same
 increasing barrier height, making H a serious confounder.
+
+**Confounding check:** H itself is monotonically associated with
+the four landscape-mean feedback log-errors; the between-landscape
+switch-gain association does NOT establish additional predictive
+information beyond known barrier height. In the 12 seed-level records,
+after subtracting each height's mean, the exploratory Pearson
+association between within-height switching-gain deviations and
+feedback-error deviations is about **-0.52**, the opposite direction
+of the four-landscape rank association. Neither number should be used
+as a hypothesis-test result with so few independent landscapes.
+This sensitivity to aggregation is a reason **not** to claim a
+successful reliability predictor.
 
 **Scientific reading:** this pilot shows that a frozen switch predictor
 can be evaluated without retraining on unseen H and F, and that the
