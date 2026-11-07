@@ -262,7 +262,7 @@ def evaluate(plan: Plan, output: Path):
                                   reconstruction_status=("complete" if efb is not None
                                                          and eexp is not None else "censored_or_invalid"),
                                   predicted_unbiased_feedback=fb_pred,
-                                  predicted_unbiased_exponential=eexp is not None and exp_pred or None,
+                                  predicted_unbiased_exponential=exp_pred,
                                   error_abs_log_feedback=efb,
                                   error_abs_log_exponential=eexp,
                                   excess_feedback_error=(efb-eexp if efb is not None
