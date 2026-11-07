@@ -77,6 +77,10 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_state_conditioned_switching.py' -v
       - name: State-conditioned switching held-out seed smoke
         run: python research/state_conditioned_switching.py --quick --output results_state_switch
+      - name: Frozen cross-landscape switching and kinetic checks
+        run: python -m unittest discover -s tests -p 'test_heldout_kinetic_reliability.py' -v
+      - name: Held-out landscape kinetic study (CI smoke only)
+        run: python research/heldout_kinetic_reliability.py --quick --output results_heldout_quick
       - name: Upload generated results
         if: always()
         uses: actions/upload-artifact@v4
@@ -90,6 +94,7 @@ jobs:
             results_feedback_sweep/
             results_checkpoint_control/
             results_state_switch/
+            results_heldout_quick/
           if-no-files-found: ignore
   cpp:
     runs-on: ubuntu-latest
@@ -119,3 +124,24 @@ jobs:
       - run: pip install openmm numpy
       - name: Paper 8 OpenMM toy smoke
         run: python 09_openmm_ramd/openmm_ramd.py --replicas 2 --steps 200 --check-steps 20 --platform Reference --output /tmp/paper8
+
+  heldout-physics-pilot:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install numerical dependencies
+        run: pip install numpy matplotlib
+      - name: Run exploratory held-out-landscape study
+        run: python research/heldout_kinetic_reliability.py --replicas 72 --horizon 80 --output results_heldout_pilot
+      - name: Archive pilot results and frozen model coefficients
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: heldout-kinetic-pilot
+          path: results_heldout_pilot/
+          if-no-files-found: warn
