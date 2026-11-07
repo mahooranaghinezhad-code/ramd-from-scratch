@@ -47,6 +47,9 @@ The original C++ learning steps are retained in the repository.
 
 **New held-out kinetic benchmark:** [study design and mathematical limitations](docs/heldout_kinetic_reliability.md) · [frozen classifier + force extrapolation source](research/heldout_kinetic_reliability.py) · [regression tests](tests/test_heldout_kinetic_reliability.py). Trains on H=2.5 only and evaluates on previously unseen barrier heights and forces without refitting the switching models. Separately compares a **heuristic** force-to-zero MFPT extrapolation against an exact F=0 toy reference; no validated kinetic unbiasing correction is claimed.
 
+
+**Out-of-topology and path-reweighting stress test (Nov 2026):** [method derivation and honest limitations](docs/topology_girsanov_reliability.md) · [four new potential shapes + discrete Girsanov code](research/topology_girsanov_benchmark.py) · [11 scientific tests](tests/test_topology_girsanov_benchmark.py) · [pilot summary](research/topology_girsanov_pilot_2026.csv). On unseen shapes, the frozen switching classifier often worsens, and conventional full-path importance weights can have severe ESS collapse. Results are exploratory on separable dimensionless toy dynamics, **not** validated ligand kinetics.
+
 Run a short reproducibility check from the repository root:
 
 ```bash
